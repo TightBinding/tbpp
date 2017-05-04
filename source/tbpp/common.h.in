@@ -1,0 +1,59 @@
+/* ===========================================================================
+ * Copyright (c) 2016-2017 Giacomo Resta
+ *
+ * This file is part of TightBinding++.
+ *
+ * TightBinding++ is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * TightBinding++ is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * ===========================================================================
+ */
+
+#ifndef __TBPP_COMMON_H__
+#define __TBPP_COMMON_H__
+
+/**
+ * \file
+ * \brief Common definitions and configuration items for TBPP
+ */
+
+#define TBPP_VERSION_MAJOR @TBPP_VERSION_MAJOR@
+#define TBPP_VERSION_MINOR @TBPP_VERSION_MINOR@
+
+
+#cmakedefine TBPP_WITH_HDF5
+#cmakedefine TBPP_WITH_OPENMP
+#cmakedefine TBPP_WITH_PYTHON
+#cmakedefine TBPP_NARRAY_CHECK_RANGE
+
+#include <complex.h>
+
+namespace tbpp {
+    using cxdouble = std::complex<double>;
+    using cxfloat = std::complex<float>;
+
+    namespace data {
+        constexpr double pi = M_PI;
+        constexpr double ec = 1.0;
+        constexpr double hbar = 1.0;
+    } // namespace data
+
+} // namespace tbpp
+
+#ifdef _OPENMP
+#include <omp.h>
+#else
+inline int omp_get_thread_num() { return 0; }
+inline int omp_get_num_threads() { return 1; }
+#endif /* _OPENMP */
+
+#endif /* __TBPP_COMMON_H__ */
