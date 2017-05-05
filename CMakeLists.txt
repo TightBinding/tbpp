@@ -147,13 +147,13 @@ if(TBPP_WITH_EDITOR)
     # Do not run uic automatically
     set(CMAKE_AUTOUIC OFF)
     # Find includes in build directories
-    set(CMAKE_INCLUDE_CURRENT_DIR on)
+    set(CMAKE_INCLUDE_CURRENT_DIR ON)
     # Find Qt5
     find_package(Qt5 COMPONENTS Core Widgets PrintSupport REQUIRED NO_MODULE)
     # QCustomPlot Library
     add_subdirectory(extern/qcustomplot)
-    # Disable RPATH on Mac so that macdeployqt works
-    set(CMAKE_MACOSX_RPATH OFF)
+    # Use link path so that macdeployqt works
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH ON)
 
     message(STATUS "Using Qt5 include dir: ${Qt5Widgets_INCLUDE_DIRS}")
     message(STATUS "Using Qt5 libraries: ${Qt5Widgets_LIBRARIES}")

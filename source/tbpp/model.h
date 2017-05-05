@@ -56,19 +56,19 @@ public:
     //------------------------------------------------------------------------
 
     /// Structure containing information for each site of the model
-    typedef struct SiteInfo {
+    typedef struct alignas(64) SiteInfo {
         char kind[TBPP_MAX_SITE_KIND_LEN]; ///< String identifier
-        double pos[3]; ///< Position in real space
+        double pos[3];   ///< Position in real space
         uint64_t states; ///< Total number of states
         uint64_t si;     ///< Start index
         uint64_t ei;     ///< End index
     } SiteInfo;
 
     /// Structure containing information for each state of the model
-    typedef struct StateInfo {
-        uint64_t site;
-        uint64_t orbit;
-        Spinor spinor;
+    typedef struct alignas(64) StateInfo {
+        uint64_t site;   ///< site index the state belongs to
+        uint64_t orbit;  ///< orbit index the state belongs to
+        Spinor spinor;   ///< spinor for the state
     } StateInfo;
 
     //------------------------------------------------------------------------
@@ -120,25 +120,25 @@ public:
     // General Settings
 
     /// Dimension of k-space
-    size_t kdim() const;
+    unsigned kdim() const;
 
     /// Set the dimensionality of k-space
     bool set_kdim(unsigned);
 
     /// Number of sites
-    size_t sites() const;
+    unsigned sites() const;
 
     /// Set the total number of sites
     void set_sites(unsigned);
 
     /// Total Number of states
-    size_t states() const;
+    unsigned states() const;
 
     /// Set the total number of states in the system
     void set_states(unsigned);
 
     /// Number of hopping matrices
-    size_t hops() const;
+    unsigned hops() const;
 
     /// Set the total number of hopping matrices
     void set_hops(unsigned);
@@ -220,16 +220,16 @@ private:
     LatticePtr _lattice = nullptr;
 
     /// Number of k-space axis
-    size_t _kdim = 0;
+    unsigned _kdim = 0;
 
     /// Number of sites
-    size_t _sites = 0;
+    unsigned _sites = 0;
 
     /// Number of states
-    size_t _states = 0;
+    unsigned _states = 0;
 
     /// Number of hopping matrices
-    size_t _hops = 0;
+    unsigned _hops = 0;
 };
 
 //----------------------------------------------------------------------------

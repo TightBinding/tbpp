@@ -45,7 +45,7 @@ typedef struct DefectSiteInfo {
 
 const char* CPA::type() const { return "CPA"; }
 
-void CPA::add_defect(const std::vector<size_t>& sites, const std::vector<double>& c,
+void CPA::add_defect(const std::vector<uint32_t>& sites, const std::vector<double>& c,
         const math::DenseMatrix<cxdouble>& V) {
     Defect d;
     d.sites = sites;
@@ -425,26 +425,26 @@ void CPA::save(EHFile& file, const std::string& prefix) const {
     file.set_attr(prefix, "use_vca", use_vca);
 
     // save defects data
-    size_t max_sites_num = 0;
-    size_t max_states_num = 0;
-    size_t c_num = 0;
+    uint32_t max_sites_num = 0;
+    uint32_t max_states_num = 0;
+    uint32_t c_num = 0;
     if(!defects.empty()) {
         c_num = defects.front().c.size();
     }
     for(const auto& d : defects) {
-        max_sites_num = max(max_sites_num, d.sites.size());
-        max_states_num = max(max_states_num, static_cast<size_t>(d.V.rows()));
+        max_sites_num = max(max_sites_num, static_cast<uint32_t>(d.sites.size()));
+        max_states_num = max(max_states_num, static_cast<uint32_t>(d.V.rows()));
         if(c_num != d.c.size())
             error("Invalid size for concentrations");
     }
 
     // number of sites for each defect
-    vector<size_t> sites_num(defects.size());
+    vector<uint32_t> sites_num(defects.size());
     // list of sites
-    math::NArray<size_t,2> sites(defects.size(), max_sites_num);
+    math::NArray<uint32_t,2> sites(defects.size(), max_sites_num);
 
     // number of states for each defect
-    vector<size_t> states_num(defects.size());
+    vector<uint32_t> states_num(defects.size());
     // V for each defect
     math::NArray<cxdouble,3> V(defects.size(), max_states_num, max_states_num);
 
@@ -500,10 +500,10 @@ void CPA::load(EHFile& file, const std::string& prefix) {
     file.get_attr(prefix, "use_vca", use_vca);
 
     // load defect info
-    vector<size_t> sites_num;
-    math::NArray<size_t,2> sites;
+    vector<uint32_t> sites_num;
+    math::NArray<uint32_t,2> sites;
 
-    vector<size_t> states_num;
+    vector<uint32_t> states_num;
     math::NArray<cxdouble,3> V;
 
     math::NArray<double,2> c;

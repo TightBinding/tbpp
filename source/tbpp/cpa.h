@@ -56,7 +56,7 @@ public:
     /// Structure containing information for each defect type
     typedef struct Defect {
         /// List of site index where defect occurs
-        std::vector<size_t> sites;
+        std::vector<uint32_t> sites;
         /// Concentration of defect (one for each concentration run)
         std::vector<double> c;
         /// On-site potential of the defect
@@ -79,7 +79,7 @@ public:
     double zero_j = 1e-3;
 
     /// [in] Max number of iterations for CPA self-consistent cycle
-    unsigned long max_iter = 200;
+    unsigned max_iter = 200;
 
     /// [in] Mixing factor to use for CPA (lower values are more stable)
     double mix_factor = 0.9;
@@ -125,7 +125,7 @@ public:
      *
      * std::vector<double> ca = {0.1, 0.2, 0.3};
      * std::vector<double> cb = {0.4, 0.5, 0.6};
-     * std::vector<size_t> sites = {1,2};
+     * std::vector<uint32_t> sites = {1,2};
      *
      * cpa->add_defect(sites, ca, mEa);
      * cpa->add_defect(sites, cb, mEb);
@@ -151,7 +151,7 @@ public:
      * \param c List of concentrations (one for each concentration scan)
      * \param V The on-site potential for the defect
      */
-    void add_defect(const std::vector<size_t>& sites, const std::vector<double>& c,
+    void add_defect(const std::vector<uint32_t>& sites, const std::vector<double>& c,
             const math::DenseMatrix<cxdouble>& V);
 
     // TODO void add_defect(size_t site_index, double c, cxdouble *V, size_t states);

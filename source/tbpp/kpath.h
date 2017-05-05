@@ -54,7 +54,7 @@ public:
     //------------------------------------------------------------------------
 
     /// Steps to take between k-points
-    unsigned long steps = 50;
+    unsigned steps = 50;
 
     /// Whether to solve for eigenvectors
     bool solve_eigvec = false;

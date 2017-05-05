@@ -177,7 +177,7 @@ public:
             const std::vector<uint32_t>& orbits,
             const std::vector<Spinor>& spinors);
 
-    void copy_along(double vx, double vy, double vz, uint64_t n);
+    void copy_along(double vx, double vy, double vz, unsigned n);
     void move_along(double vx, double vy, double vz);
     // TODO void rotate(const double* R);
     // TODO void clean_sites();

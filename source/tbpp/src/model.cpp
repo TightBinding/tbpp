@@ -69,7 +69,7 @@ LatticePtr Model::lattice() const {
 //------------------------------------------------------------------------
 // General Settings
 
-size_t Model::kdim() const {
+unsigned Model::kdim() const {
     return _kdim;
 }
 
@@ -80,7 +80,7 @@ bool Model::set_kdim(unsigned kdim) {
     return true;
 }
 
-size_t Model::sites() const {
+unsigned Model::sites() const {
     return _sites;
 }
 
@@ -88,7 +88,7 @@ void Model::set_sites(unsigned sites) {
     _sites = sites;
 }
 
-size_t Model::states() const {
+unsigned Model::states() const {
     return _states;
 }
 
@@ -96,7 +96,7 @@ void Model::set_states(unsigned states) {
     _states = states;
 }
 
-size_t Model::hops() const {
+unsigned Model::hops() const {
     return _hops;
 }
 

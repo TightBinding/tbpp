@@ -201,7 +201,7 @@ math::DenseMatrix<cxdouble> Lattice::_T(uint32_t site_i, uint32_t site_j,
     return ret;
 }
 
-void Lattice::copy_along(double vx, double vy, double vz, uint64_t n){
+void Lattice::copy_along(double vx, double vy, double vz, unsigned n){
     size_t sites_n = sites.size();
     for(size_t in=1; in<n; in++) {
         for(size_t i=0; i<sites_n; i++) {

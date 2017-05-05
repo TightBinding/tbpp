@@ -30,7 +30,7 @@
  * \brief A simple interface to the HDF5 Data Format
  */
 
-/// Max length for string attributes
+// Max length for string attributes
 #define EHFILE_MAX_STR_LEN 256
 
 namespace tbpp {
@@ -43,8 +43,7 @@ template<typename T> struct h5_type { static H5::DataType type(); };
 template<> struct h5_type<int32_t> { static H5::DataType type() { return H5::PredType::NATIVE_INT32; } };
 template<> struct h5_type<int64_t> { static H5::DataType type() { return H5::PredType::NATIVE_INT64; } };
 template<> struct h5_type<uint32_t> { static H5::DataType type() { return H5::PredType::NATIVE_UINT32; } };
-//template<> struct h5_type<uint64_t> { static H5::DataType type() { return H5::PredType::NATIVE_UINT64; } };
-template<> struct h5_type<unsigned long> { static H5::DataType type() { return H5::PredType::NATIVE_ULONG;; } };
+template<> struct h5_type<uint64_t> { static H5::DataType type() { return H5::PredType::NATIVE_UINT64; } };
 template<> struct h5_type<float> { static H5::DataType type() { return H5::PredType::NATIVE_FLOAT; } };
 template<> struct h5_type<double> { static H5::DataType type() { return H5::PredType::NATIVE_DOUBLE; } };
 
