@@ -56,7 +56,7 @@ public:
     //------------------------------------------------------------------------
 
     /// Structure containing information for each site of the model
-    typedef struct alignas(64) SiteInfo {
+    typedef struct SiteInfo {
         char kind[TBPP_MAX_SITE_KIND_LEN]; ///< String identifier
         double pos[3];   ///< Position in real space
         uint64_t states; ///< Total number of states
@@ -65,7 +65,7 @@ public:
     } SiteInfo;
 
     /// Structure containing information for each state of the model
-    typedef struct alignas(64) StateInfo {
+    typedef struct StateInfo {
         uint64_t site;   ///< site index the state belongs to
         uint64_t orbit;  ///< orbit index the state belongs to
         Spinor spinor;   ///< spinor for the state

@@ -174,7 +174,7 @@ kpath_get_kpoints(KPathPy *self, void *closure) {
                "k3","f8"
             );
 
-    PyArray_DescrConverter(dtype_dict, &dtype);
+    PyArray_DescrAlignConverter(dtype_dict, &dtype);
     Py_DECREF(dtype_dict);
 
     int nd = 1;

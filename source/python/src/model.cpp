@@ -312,7 +312,7 @@ model_get_site_info(ModelPy *self, void *closure) {
               "ei","u8"
             );
 
-    PyArray_DescrConverter(dtype_dict, &dtype);
+    PyArray_DescrAlignConverter(dtype_dict, &dtype);
     Py_DECREF(dtype_dict);
 
     int nd = 1;
@@ -344,7 +344,7 @@ model_get_state_info(ModelPy *self, void *closure) {
            "spinor","c16",2
             );
 
-    PyArray_DescrConverter(dtype_dict, &dtype);
+    PyArray_DescrAlignConverter(dtype_dict, &dtype);
     Py_DECREF(dtype_dict);
 
     int nd = 1;
