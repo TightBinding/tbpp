@@ -19,8 +19,8 @@
 
 ExternalProject_Add(HDF5
     PREFIX extern/hdf5
-    URL https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8.17/src/hdf5-1.8.17.zip
-    URL_MD5 be2642d976b49d6cc60a32b0bd8f829a
+    URL http://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.1/src/hdf5-1.10.1.zip
+    URL_MD5 0f57dadf13f45edde38d777160e5a7d6
     CMAKE_CACHE_ARGS
         -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
         -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
