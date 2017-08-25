@@ -60,6 +60,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-write-strings")
 #-----------------------------------------------------------------------------
 # Install
 
-install(TARGETS python_tbpp DESTINATION "${TBPP_INSTALL_LIBRARY_DIR}/pytbpp")
-install(TARGETS python_tbpp DESTINATION "${TBPP_INSTALL_LIBRARY_DIR}/pytbpp")
-install(FILES ${SCRIPTS} DESTINATION "${TBPP_INSTALL_LIBRARY_DIR}/pytbpp")
+install(TARGETS python_tbpp DESTINATION "${TBPP_INSTALL_PYTHON_LIBRARY_DIR}/pytbpp")
+install(TARGETS python_tbpp DESTINATION "${TBPP_INSTALL_PYTHON_LIBRARY_DIR}/pytbpp")
+install(FILES ${SCRIPTS} DESTINATION "${TBPP_INSTALL_PYTHON_LIBRARY_DIR}/pytbpp")

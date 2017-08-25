@@ -58,10 +58,11 @@ set(TBPP_EXTERN_INSTALL_PATH "${CMAKE_BINARY_DIR}/extern_install" CACHE INTERNAL
 #-----------------------------------------------------------------------------
 # Output directories
 
-set(TBPP_INSTALL_BIN_DIR bin CACHE INTERNAL "" FORCE)
-set(TBPP_INSTALL_LIBRARY_DIR lib CACHE INTERNAL "" FORCE)
-set(TBPP_INSTALL_INCLUDE_DIR include/tbpp CACHE INTERNAL "" FORCE)
-set(TBPP_INSTALL_DOC_DIR share/doc/tbpp CACHE INTERNAL "" FORCE)
+set(TBPP_INSTALL_BIN_DIR "bin" CACHE PATH "Where to install binaries")
+set(TBPP_INSTALL_LIBRARY_DIR "lib" CACHE PATH "Where to install libraries")
+set(TBPP_INSTALL_PYTHON_LIBRARY_DIR "lib" CACHE PATH "Where to install python library")
+set(TBPP_INSTALL_INCLUDE_DIR "include/tbpp" CACHE PATH "Where to install header files")
+set(TBPP_INSTALL_DOC_DIR "share/doc/tbpp" CACHE PATH "Where to install documentation")
 
 #-----------------------------------------------------------------------------
 # Options
