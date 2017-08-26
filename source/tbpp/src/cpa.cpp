@@ -20,9 +20,6 @@
 
 #include <tbpp/cpa.h>
 
-// Disable Eigen Multi-threading
-#define EIGEN_DONT_PARALLELIZE
-
 using namespace std;
 
 namespace tbpp {
@@ -215,6 +212,14 @@ void CPA::solve() {
 
     //-----------------------------------------------------------------------
     // Compute Self-Energy using CPA
+
+    if(_parallel) {
+        // Disable Eigen Multi-threading
+        Eigen::setNbThreads(1);
+    } else {
+        // Let Eigen determine number of threads to use;
+        Eigen::setNbThreads(0);
+    }
 
     #pragma omp parallel if(_parallel)
     {

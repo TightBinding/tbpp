@@ -21,9 +21,6 @@
 #include <tbpp/cond_dos.h>
 #include <tbpp/common.h>
 
-// Disable Eigen parallelization
-#define EIGEN_DONT_PARALLELIZE
-
 using namespace std;
 
 namespace tbpp {
@@ -133,6 +130,14 @@ void CondDOS::solve() {
 
     } else {
         dos_proj.clear();
+    }
+
+    if(_parallel) {
+        // Disable Eigen Multi-threading
+        Eigen::setNbThreads(1);
+    } else {
+        // Let Eigen determine number of threads to use;
+        Eigen::setNbThreads(0);
     }
 
     #pragma omp parallel if(_parallel)

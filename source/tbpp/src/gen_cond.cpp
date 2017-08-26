@@ -22,9 +22,6 @@
 #include <tbpp/common.h>
 #include <cstdio>
 
-// Disable Eigen parallelization
-#define EIGEN_DONT_PARALLELIZE
-
 using namespace std;
 
 namespace tbpp {
@@ -87,6 +84,14 @@ void GenCond::solve() {
 
     phi.resize(c_size, w_size, w_size, 3, 3);
     phi.fill(0);
+
+    if(_parallel) {
+        // Disable Eigen Multi-threading
+        Eigen::setNbThreads(1);
+    } else {
+        // Let Eigen determine number of threads to use;
+        Eigen::setNbThreads(0);
+    }
 
     #pragma omp parallel if(_parallel)
     {
