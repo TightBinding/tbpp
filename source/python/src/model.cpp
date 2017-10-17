@@ -168,6 +168,39 @@ model_dH_dk(ModelPy *self, PyObject *args) {
     return Py_BuildValue("NNN", dx_obj, dy_obj, dz_obj);
 }
 
+PyDoc_STRVAR(model_Gk_doc,
+"Gk(k1, k2, k3, Ef, zeroj)\n"
+"\n Green's matrix at a given k-point."
+"\n");
+static PyObject *
+model_Gk(ModelPy *self, PyObject *args) {
+    if(self->ptr == nullptr) {
+        PyErr_SetString(PyExc_ValueError, "Pointer is nullptr");
+        return NULL;
+    }
+    ModelPtr ptr = std::dynamic_pointer_cast<Model>(self->ptr);
+
+    double k1=0, k2=0, k3=0, Ef=0, zeroj=0;
+    if(!PyArg_ParseTuple(args, "ddddd", &k1, &k2, &k3, &Ef, &zeroj))
+        return NULL;
+
+    npy_intp dims[2];
+    dims[0] = ptr->states();
+    dims[1] = ptr->states();
+
+    PyObject* array_obj = PyArray_SimpleNew(2, dims, NPY_CDOUBLE);
+    PyArrayObject* array = reinterpret_cast<PyArrayObject*>(array_obj);
+    std::complex<double>* data = static_cast<std::complex<double>*>(PyArray_DATA(array));
+    try {
+        ptr->Gk(data, k1, k2, k3, Ef, zeroj, NULL);
+    } catch(std::exception const& e) {
+        PyErr_SetString(PyExc_ValueError, e.what());
+        Py_DECREF(array_obj);
+        return NULL;
+    }
+    return array_obj;
+}
+
 static PyObject *
 model_set_lattice(ModelPy *self, PyObject *obj) {
     if(self->ptr == nullptr) {
@@ -370,6 +403,7 @@ static PyMethodDef model_methods[] = {
         "Compute the Hamiltonian matrix at a specific k-point"},
     {"dH_dk", (PyCFunction)model_dH_dk, METH_VARARGS,
         "Compute derivatives of the Hamiltonian at a specific k-point"},
+    {"Gk", (PyCFunction)model_Gk, METH_VARARGS, model_Gk_doc},
     {NULL}
 };
 

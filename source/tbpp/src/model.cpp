@@ -437,8 +437,9 @@ void Model::Tk(complex<double> *d, double k1, double k2, double k3) const {
 
     // initialize data with zeros
     size_t s2 = _states*_states;
-    for(size_t i=0; i<s2; i++)
+    for(size_t i=0; i<s2; i++) {
         d[i] = 0.0;
+    }
 
     // add hops
     for(size_t iR=0; iR<_hops; iR++) {
@@ -475,6 +476,12 @@ void Model::Hk(complex<double> *d, double k1, double k2, double k3) const {
     double kx = k1*b(0,0) + k2*b(1,0) + k3*b(2,0);
     double ky = k1*b(0,1) + k2*b(1,1) + k3*b(2,1);
     double kz = k1*b(0,2) + k2*b(1,2) + k3*b(2,2);
+
+    // initialize data with zeros
+    size_t s2 = _states*_states;
+    for(size_t i=0; i<s2; i++) {
+        d[i] = 0.0;
+    }
 
     // initialize data with on-site
     for(size_t si=0; si<_sites; si++)
@@ -528,6 +535,14 @@ void Model::dH_dk(complex<double>* dx, complex<double>* dy, complex<double>* dz,
     double kx = k1*b(0,0) + k2*b(1,0) + k3*b(2,0);
     double ky = k1*b(0,1) + k2*b(1,1) + k3*b(2,1);
     double kz = k1*b(0,2) + k2*b(1,2) + k3*b(2,2);
+
+    // initialize data with zeros
+    size_t s2 = _states*_states;
+    for(size_t i=0; i<s2; i++) {
+        dx[i] = 0.0;
+        dy[i] = 0.0;
+        dz[i] = 0.0;
+    }
 
     complex<double> iAx,iAy,iAz;
 
@@ -584,6 +599,30 @@ void Model::dH_dk(complex<double>* dx, complex<double>* dy, complex<double>* dz,
         }
     }
 }
+
+
+void Model::Gk(std::complex<double>* d, double k1, double k2, double k3,
+        double Ef, double zeroj, std::complex<double>* S) const {
+    math::DenseMap<cxdouble> mGk(d, _states, _states);
+
+    Hk(d, k1,k2,k3);
+    // Now: Gk = Hk
+    mGk *= -1;
+    // Now: Gk = -Hk
+    complex<double> Ef0j(Ef, fabs(zeroj));
+    for(unsigned i=0; i<_states; i++) {
+        mGk(i,i) += Ef0j;
+    }
+    // Now: Gk = (Ef+0j)*I - Hk
+    if (S != NULL) {
+        math::DenseMap<cxdouble> mS(S, _states, _states);
+        mGk -= mS;
+    }
+    // Now: Gk = (Ef+0j)*I - Hk - S
+    mGk = mGk.inverse();
+    // Now: Gk = inverse((Ef+0j)*I - Hk - S)
+}
+
 
 #ifdef TBPP_WITH_HDF5
 void Model::save(EHFile& file, const string& prefix) const {

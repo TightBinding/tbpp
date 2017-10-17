@@ -169,6 +169,46 @@ kmodel_get_k3(KModelPy *self, void *closure) {
     return wrap::to_py(ptr->k3);
 }
 
+PyDoc_STRVAR(kmodel_G_doc,
+"G(Ef, zeroj)\n"
+"\n Local Green's matrix. Note you must first call set_grid(...) to set the"
+"\n k-space grid for integration");
+static PyObject *
+kmodel_G(ModelPy *self, PyObject *args) {
+    if(self->ptr == nullptr) {
+        PyErr_SetString(PyExc_ValueError, "Pointer is nullptr");
+        return NULL;
+    }
+    KModelPtr ptr = std::dynamic_pointer_cast<KModel>(self->ptr);
+
+    // Get pointer to model
+    ModelPtr mptr = ptr->model();
+    if(mptr == nullptr) {
+        PyErr_SetString(PyExc_ValueError, "No model");
+        return NULL;
+    }
+
+    double Ef=0, zeroj=0;
+    if(!PyArg_ParseTuple(args, "dd", &Ef, &zeroj))
+        return NULL;
+
+    npy_intp dims[2];
+    dims[0] = mptr->states();
+    dims[1] = mptr->states();
+
+    PyObject* array_obj = PyArray_SimpleNew(2, dims, NPY_CDOUBLE);
+    PyArrayObject* array = reinterpret_cast<PyArrayObject*>(array_obj);
+    std::complex<double>* data = static_cast<std::complex<double>*>(PyArray_DATA(array));
+    try {
+        ptr->G(data, Ef, zeroj, NULL);
+    } catch(std::exception const& e) {
+        PyErr_SetString(PyExc_ValueError, e.what());
+        Py_DECREF(array_obj);
+        return NULL;
+    }
+    return array_obj;
+}
+
 //----------------------------------------------------------------------
 
 static PyMethodDef kmodel_methods[] = {
@@ -178,6 +218,7 @@ static PyMethodDef kmodel_methods[] = {
         "Set the cache"},
     {"set_grid", (PyCFunction)kmodel_set_grid, METH_VARARGS,
         "Set the k space grid size"},
+    {"G", (PyCFunction)kmodel_G, METH_VARARGS, kmodel_G_doc},
     {NULL}
 };
 

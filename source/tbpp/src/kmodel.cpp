@@ -98,6 +98,42 @@ void KModel::solve() {
     _status = NodeStatus::done;
 }
 
+void KModel::G(std::complex<double>* d, double Ef, double zeroj,
+        std::complex<double>* S) const {
+
+    //-----------------------------------------------------------------------
+
+    if (_model == nullptr) throw runtime_error("No Model");
+
+    const size_t states = _model->states();
+    const size_t sites = _model->sites();
+    const size_t kdim = _model->kdim();
+    const size_t states2 = states*states;
+
+    //-----------------------------------------------------------------------
+    // Check k-space
+
+    if(kdim >= 1 and k1.size() < 2) error("Incorrect dimension for k1");
+    if(kdim >= 2 and k2.size() < 2) error("Incorrect dimension for k2");
+    if(kdim >= 3 and k3.size() < 2) error("Incorrect dimension for k3");
+
+    const size_t kpoints = k1.size()*k2.size()*k3.size();
+
+    //-----------------------------------------------------------------------
+
+    math::DenseMap<cxdouble> mG(d, states, states);
+    math::DenseMatrix<cxdouble> mGk(states, states);
+    mG.setZero();
+
+    for(size_t ik1=0; ik1<k1.size(); ik1++)
+    for(size_t ik2=0; ik2<k2.size(); ik2++)
+    for(size_t ik3=0; ik3<k3.size(); ik3++) {
+        _model->Gk(mGk.data(), k1[ik1], k2[ik2], k3[ik3], Ef, zeroj, S);
+        mG += mGk;
+    }
+    mG /= kpoints;
+}
+
 #ifdef TBPP_WITH_HDF5
 void KModel::save(EHFile& file, const string& prefix) const {
     Node::save(file, prefix);

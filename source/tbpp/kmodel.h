@@ -95,6 +95,20 @@ public:
     /// Solve for Tk if caching is enabled
     virtual void solve();
 
+    /** \brief Get the Local Green's Matrix
+     *
+     * Note that you must first specify the k-space grid for integration by
+     * calling set_grid(...) before using this function.
+     *
+     * \param[out] d Pointer to array of size states*states for G
+     * \param[in] Ef Fermi energy to use
+     * \param[in] zeroj Value to use for artificial broadening (+0j)
+     * \param[in] S Pointer to array of size states*states with self-energy
+     */
+    void G(std::complex<double>* d, double Ef, double zeroj,
+            std::complex<double>* S) const;
+
+
 #ifdef TBPP_WITH_HDF5
     virtual void save(EHFile& file, const std::string& prefix="") const;
     virtual void load(EHFile& file, const std::string& prefix="");

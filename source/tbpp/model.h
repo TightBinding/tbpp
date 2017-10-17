@@ -207,6 +207,22 @@ public:
     void dH_dk(std::complex<double>* dx, std::complex<double>* dy, std::complex<double>* dz,
             double k1, double k2, double k3) const;
 
+    /** \brief Get the Green's Matrix at a given k-point
+     *
+     * Note that k1,k2,k3 are in reduced coordinates. This means that the
+     * first BZ is from -0.5 < k1,k2,k3 < 0.5.
+     *
+     * \param[out] d Pointer to array of size states*states for Gk
+     * \param[in] k1 k-point in reduced coordinates along b1
+     * \param[in] k2 k-point in reduced coordinates along b2
+     * \param[in] k3 k-point in reduced coordinates along b3
+     * \param[in] Ef Fermi energy to use
+     * \param[in] zeroj Value to use for artificial broadening (+0j)
+     * \param[in] S Pointer to array of size states*states with self-energy
+     */
+    void Gk(std::complex<double>* d, double k1, double k2, double k3,
+            double Ef, double zeroj, std::complex<double>* S) const;
+
 #ifdef TBPP_WITH_HDF5
     virtual void save(EHFile& file, const std::string& prefix="") const;
     virtual void load(EHFile& file, const std::string& prefix="");
